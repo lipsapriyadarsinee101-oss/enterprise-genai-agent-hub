@@ -6,7 +6,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Enterprise GenAI Agent Hub", page_icon="🧠", layout="wide")
 st.title("Enterprise GenAI Agent Hub")
-st.caption("Multi-agent RAG with grounded answers, citations, and quality checks")
+st.caption("Multi-agent retrieval with cited excerpts and provenance checks")
 
 with st.sidebar:
     st.header("Configuration")
@@ -24,16 +24,17 @@ question = st.text_area("Ask an enterprise knowledge question", value=question, 
 
 if st.button("Run agent workflow", type="primary", disabled=not question.strip()):
     try:
-        with st.spinner("Agents are retrieving and validating evidence..."):
+        with st.spinner("Agents are retrieving and checking excerpts..."):
             response = requests.post(f"{api_url.rstrip('/')}/v1/query", json={"question": question, "top_k": top_k}, timeout=60)
             response.raise_for_status()
             result = response.json()
         c1, c2, c3, c4 = st.columns(4)
         c1.metric("Route", result["route"].title())
-        c2.metric("Confidence", f'{result["confidence"]:.0%}')
-        c3.metric("Grounded", "Yes" if result["grounded"] else "No")
+        c2.metric("Provenance", result["quality"]["support_status"].replace("_", " "))
+        c3.metric("Abstained", "Yes" if result["abstained"] else "No")
         c4.metric("Latency", f'{result["latency_ms"]} ms')
-        st.subheader("Answer")
+        st.caption(result["quality"]["limitations"])
+        st.subheader("Answer / selected excerpts")
         st.markdown(result["answer"])
         with st.expander("Agent trace", expanded=True):
             for index, step in enumerate(result["trace"], 1):

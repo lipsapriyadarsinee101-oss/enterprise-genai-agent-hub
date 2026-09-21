@@ -7,3 +7,6 @@ __pycache__/
 htmlcov/
 .DS_Store
 .streamlit/secrets.toml
+
+# Local benchmark reports
+*-results.json
