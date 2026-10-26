@@ -16,5 +16,14 @@ jobs:
           python-version: "3.11"
           cache: pip
       - run: pip install -r requirements.txt
-      - run: pytest -q
+      - run: python -m pytest -q
       - run: python -m scripts.evaluate
+
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform -chdir=infra fmt -check
+      - run: terraform -chdir=infra init -backend=false
+      - run: terraform -chdir=infra validate

@@ -1,0 +1,5 @@
+[
+  {"question":"What controls are needed before AI deployment?", "reference":"Document intended use, data sources, limitations, evaluation results and accountable approver. High-impact systems need privacy assessment, security review, bias testing, human oversight and rollback."},
+  {"question":"How do we monitor a RAG system?", "reference":"Monitor retrieval quality, citation coverage, response latency and operational failures."},
+  {"question":"How many cafeterias are in the Madrid office?", "reference":"The knowledge base does not provide this information; abstain."}
+]

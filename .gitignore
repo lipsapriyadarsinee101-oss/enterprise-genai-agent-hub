@@ -7,3 +7,9 @@ __pycache__/
 htmlcov/
 .DS_Store
 .streamlit/secrets.toml
+
+reports/
+.terraform/
+*.tfstate*
+*.tfplan
+*.tfvars

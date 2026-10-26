@@ -1,0 +1,12 @@
+image: python:3.11-slim
+stages: [test]
+test:
+  stage: test
+  script:
+    - pip install -r requirements.txt
+    - python -m pytest -q --junitxml=reports/tests.xml
+    - python -m scripts.evaluate
+  artifacts:
+    when: always
+    reports:
+      junit: reports/tests.xml
