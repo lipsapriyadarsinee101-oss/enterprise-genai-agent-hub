@@ -22,7 +22,7 @@ flowchart TD
     R -->|policy| P[Policy Specialist]
     R -->|technical| T[Technical Specialist]
     R -->|general| G[General Specialist]
-    P --> V[TF-IDF Vector Store]
+    P --> V[TF-IDF / FAISS / OpenSearch]
     T --> V
     G --> V
     V --> S[Synthesis Agent]
@@ -34,9 +34,13 @@ flowchart TD
 
 - Multi-agent workflow: router, retrieval specialist, synthesis, and quality agents
 - RAG over Markdown and text documents with source citations
-- OpenAI Responses API integration with deterministic demo fallback
+- LangChain OpenAI generation with deterministic demo fallback
 - FastAPI endpoints with typed Pydantic contracts
 - Streamlit chat UI with agent trace, citations, confidence, and latency
+- LangGraph conditional routing and workflow orchestration
+- FAISS dense retrieval and optional OpenSearch vector database
+- Langfuse tracing and independent LLM-as-a-judge evaluation
+- statsmodels confidence intervals, Terraform, Jenkins and GitLab CI
 - Lightweight TF-IDF retrieval—no external vector database required
 - Prompt-injection-aware context handling
 - Automated evaluation for citation coverage and answer grounding
@@ -89,7 +93,7 @@ The evaluation script measures retrieval hit rate, citation coverage, groundedne
 
 ## Technology stack
 
-Python, FastAPI, Streamlit, OpenAI API, scikit-learn, Pydantic, Docker, Pytest, and GitHub Actions. The orchestration layer uses framework-independent agent interfaces so a LangChain, Azure OpenAI, AWS Bedrock, or GCP implementation can be added without changing the API contract.
+Python, FastAPI, Streamlit, OpenAI API, LangChain, LangGraph, FAISS, OpenSearch, Langfuse, statsmodels, Terraform, Jenkins, GitLab CI, scikit-learn, Pydantic, Docker, Pytest, and GitHub Actions. LangGraph orchestrates the router, retrieval, synthesis and quality nodes. LangChain composes the generation and judge chains. See [LLMOps guide](docs/LLMOPS.md) for configuration, validation limits and interview exercises.
 
 ## Responsible AI choices
 
@@ -111,3 +115,7 @@ Python, FastAPI, Streamlit, OpenAI API, scikit-learn, Pydantic, Docker, Pytest, 
 
 MIT
 
+
+## Upgraded workflow
+
+Read the [LLMOps guide](docs/LLMOPS.md) to run dense retrieval, tracing, judge evaluation and infrastructure. These integrations are portfolio implementations, not evidence of production deployment.

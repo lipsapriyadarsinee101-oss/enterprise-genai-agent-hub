@@ -47,11 +47,16 @@ QUESTION: {question}
 CONTEXT:
 {context}
 """
-        from openai import OpenAI
+        from langchain_openai import ChatOpenAI
+        from langchain_core.prompts import ChatPromptTemplate
+        from langchain_core.output_parsers import StrOutputParser
 
-        client = OpenAI(api_key=self.api_key)
-        response = client.responses.create(model=self.model, input=prompt)
-        return response.output_text, AgentStep(agent="synthesis", action="generate", detail=f"Generated answer with {self.model}"), "openai"
+        chain = (ChatPromptTemplate.from_messages([('human', '{prompt}')])
+                 | ChatOpenAI(model=self.model, api_key=self.api_key, temperature=0)
+                 | StrOutputParser())
+        answer = chain.invoke({'prompt': prompt})
+        return answer, AgentStep(agent='synthesis', action='generate', detail=f'Generated answer with {self.model}'), 'openai'
+
 
 
 class QualityAgent:
